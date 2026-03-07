@@ -1,56 +1,42 @@
-// app/page.tsx
 'use client';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
-import { useEffect, useState } from 'react';
-
-export default function ConfettiBirthdayCard() {
-  const [showConfetti, setShowConfetti] = useState(false);
-
-  useEffect(() => {
-    setShowConfetti(true);
-  }, []);
+export default function BirthdayCard() {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-900 relative overflow-hidden">
-      {showConfetti && (
-        <div className="absolute inset-0">
-          {Array.from({ length: 30 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute animate-ping"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `-10px`,
-                animation: `fall ${2 + Math.random() * 2}s linear forwards`,
-              }}
-            >
-              {['🎉', '🎈', '🎁', '⭐', '🎊'][Math.floor(Math.random() * 5)]}
-            </div>
-          ))}
+    <div className="flex items-center justify-center min-h-screen bg-pink-100">
+      {/* Container do Cartão */}
+      <motion.div 
+        className="relative w-80 h-60 bg-white rounded-2xl shadow-2xl cursor-pointer flex items-center justify-center border-4 border-pink-300"
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.05 }}
+      >
+        {/* Frente do Cartão */}
+        <div className="z-20 text-center">
+          <h2 className="text-2xl font-bold text-pink-500">Passe o mouse 🌸</h2>
+          <p className="text-pink-300 text-sm">tem uma surpresa aqui...</p>
         </div>
-      )}
 
-      <style>{`
-        @keyframes fall {
-          to {
-            transform: translateY(100vh) rotate(360deg);
-            opacity: 0;
-          }
-        }
-      `}</style>
-
-      <div className="bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl shadow-2xl p-16 max-w-2xl text-center relative z-10">
-        <h1 className="text-6xl font-bold text-white mb-4">Feliz Aniversário!</h1>
-        <p className="text-2xl text-white/90 mb-8">
-          Esperamos que seja um dia especial e inesquecível!
-        </p>
-        <button
-          onClick={() => setShowConfetti(!showConfetti)}
-          className="bg-white text-purple-600 px-8 py-3 rounded-lg font-bold hover:scale-110 transition"
+        {/* A Mensagem que sobe (Revelada no Hover) */}
+        <motion.div 
+          className="absolute z-10 w-72 h-48 bg-white border-2 border-pink-200 rounded-xl p-4 shadow-inner"
+          initial={{ y: 0, opacity: 0 }}
+          animate={isOpen ? { y: -120, opacity: 1 } : { y: 0, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 100, damping: 15 }}
         >
-          Celebrar! 🎉
-        </button>
-      </div>
+          <p className="text-pink-600 font-serif text-center">
+            "Que seu dia seja tão incrível quanto você! 🎂✨"
+          </p>
+          <div className="mt-4 flex justify-center text-4xl">🎁</div>
+        </motion.div>
+
+        {/* Base do "Envelope" (opcional para dar profundidade) */}
+        <div className="absolute inset-0 z-30 pointer-events-none rounded-2xl border-t-8 border-pink-200/50"></div>
+      </motion.div>
     </div>
   );
 }
