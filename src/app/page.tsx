@@ -5,73 +5,19 @@ import { useState } from 'react';
 
 /**
  * Birthday Card Component - Next.js Version
+ * Single Card with Gradient
  * Color Palette:
  * - Primary (Red): #C41E3A
  * - Secondary (Purple/Pink): #9B4D96
  * - Dark Background: #1B1B3A
  */
 
-interface CardPage {
-  id: number;
-  title: string;
-  content: string;
-  emoji: string;
-  bgGradient: string;
-}
-
-const cardPages: CardPage[] = [
-  {
-    id: 1,
-    title: 'Parabéns!',
-    content: 'Que seu dia seja tão especial quanto você é para todos nós!',
-    emoji: '🎂',
-    bgGradient: 'linear-gradient(135deg, #C41E3A 0%, #A01830 100%)',
-  },
-  {
-    id: 2,
-    title: 'Diversão',
-    content: 'Que este ano traga muitas risadas, aventuras e momentos inesquecíveis!',
-    emoji: '🎉',
-    bgGradient: 'linear-gradient(135deg, #9B4D96 0%, #7A3A75 100%)',
-  },
-  {
-    id: 3,
-    title: 'Sucesso',
-    content: 'Que todos os seus sonhos se tornem realidade e seus objetivos sejam alcançados!',
-    emoji: '⭐',
-    bgGradient: 'linear-gradient(135deg, #1B1B3A 0%, #0F0F1E 100%)',
-  },
-  {
-    id: 4,
-    title: 'Amor',
-    content: 'Cercado de pessoas que te amam e de momentos que valem a pena viver!',
-    emoji: '💝',
-    bgGradient: 'linear-gradient(135deg, #C41E3A 0%, #A01830 100%)',
-  },
-];
-
 export default function BirthdayCard() {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const handleNextPage = () => {
-    if (currentPage < cardPages.length - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   const handleClose = () => {
     setIsOpen(false);
-    setCurrentPage(0);
   };
-
-  const currentCardPage = cardPages[currentPage];
 
   return (
     <div 
@@ -216,74 +162,56 @@ export default function BirthdayCard() {
               </motion.div>
             )}
 
-            {/* Open State - Book Pages */}
+            {/* Open State - Single Card */}
             {isOpen && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.5 }}
                 className="w-full"
               >
-                {/* Book Container */}
-                <div className="relative w-full max-w-4xl mx-auto">
-                  {/* Left Page (Back) */}
-                  <motion.div
-                    initial={{ rotateY: 90, opacity: 0 }}
-                    animate={{ rotateY: 0, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    className="absolute left-0 top-0 w-1/2 h-full"
-                    style={{ transformStyle: 'preserve-3d' }}
-                  >
-                    <div 
-                      className="relative w-full aspect-[2/3] rounded-l-3xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-6 overflow-hidden"
-                      style={{ background: 'linear-gradient(135deg, #2D2D4A 0%, #1B1B3A 100%)' }}
-                    >
-                      <div className="absolute inset-0 opacity-5" />
-                      <div className="relative z-10 text-center">
-                        <p className="text-sm mb-2" style={{ color: '#9B4D96' }}>Página {currentPage + 1} de {cardPages.length}</p>
-                        <p className="italic" style={{ color: '#9B4D96' }}>← Deslize para ler →</p>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Right Page (Front) */}
+                {/* Card Container */}
+                <div className="relative w-full max-w-2xl mx-auto">
+                  {/* Single Card with Gradient */}
                   <motion.div
                     initial={{ rotateY: -90, opacity: 0 }}
                     animate={{ rotateY: 0, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
+                    transition={{ duration: 0.6 }}
                     className="relative w-full"
                     style={{ transformStyle: 'preserve-3d' }}
                   >
                     <div 
-                      className="relative w-full aspect-[2/3] rounded-r-3xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-8 overflow-hidden"
-                      style={{ background: currentCardPage.bgGradient }}
+                      className="relative w-full aspect-[4/3] rounded-3xl shadow-2xl border-4 border-white flex flex-col items-center justify-center p-8 overflow-hidden"
+                      style={{
+                        background: `linear-gradient(135deg, #C41E3A 0%, #9B4D96 50%, #1B1B3A 100%)`
+                      }}
                     >
                       {/* Decorative background pattern */}
                       <div className="absolute inset-0 opacity-10" />
 
                       {/* Content */}
                       <motion.div
-                        key={currentPage}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                         className="relative z-10 text-center flex flex-col items-center justify-center h-full gap-6"
                       >
                         <motion.div
-                          className="text-6xl"
+                          className="text-7xl"
                           animate={{ scale: [1, 1.2, 1], rotate: [0, 5, -5, 0] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         >
-                          {currentCardPage.emoji}
+                          💝
                         </motion.div>
 
-                        <h3 className="text-4xl font-bold text-white drop-shadow-lg">
-                          {currentCardPage.title}
+                        <h3 className="text-5xl font-bold text-white drop-shadow-lg">
+                          Parabéns!
                         </h3>
 
-                        <p className="text-lg text-white/95 font-light leading-relaxed max-w-sm drop-shadow-md">
-                          {currentCardPage.content}
+                        <p className="text-xl text-white/95 font-light leading-relaxed max-w-lg drop-shadow-md">
+                          Que seu dia seja tão especial quanto você é para todos nós! 
+                          Que este ano traga muita alegria, sucesso e momentos inesquecíveis!
                         </p>
                       </motion.div>
 
@@ -294,66 +222,12 @@ export default function BirthdayCard() {
                   </motion.div>
                 </div>
 
-                {/* Navigation Controls */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="flex items-center justify-center gap-6 mt-8"
-                >
-                  {/* Previous Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handlePrevPage}
-                    disabled={currentPage === 0}
-                    className="px-6 py-3 text-white font-semibold rounded-full shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    style={{
-                      background: `linear-gradient(to right, #C41E3A, #A01830)`
-                    }}
-                  >
-                    ← Anterior
-                  </motion.button>
-
-                  {/* Page Indicator */}
-                  <div className="flex gap-2">
-                    {cardPages.map((_, index) => (
-                      <motion.div
-                        key={index}
-                        className={`h-3 rounded-full transition-all ${
-                          index === currentPage ? 'w-8' : 'w-3'
-                        }`}
-                        style={{
-                          background: index === currentPage 
-                            ? `linear-gradient(to right, #C41E3A, #9B4D96)`
-                            : '#9B4D96'
-                        }}
-                        animate={{ scale: index === currentPage ? 1.2 : 1 }}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Next Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleNextPage}
-                    disabled={currentPage === cardPages.length - 1}
-                    className="px-6 py-3 text-white font-semibold rounded-full shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    style={{
-                      background: `linear-gradient(to right, #9B4D96, #7A3A75)`
-                    }}
-                  >
-                    Próxima →
-                  </motion.button>
-                </motion.div>
-
                 {/* Close Button */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7, duration: 0.5 }}
-                  className="flex justify-center mt-6"
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                  className="flex justify-center mt-8"
                 >
                   <motion.button
                     whileHover={{ scale: 1.05 }}
