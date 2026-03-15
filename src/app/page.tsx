@@ -1,15 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
 /**
- * Birthday Card Component - Next.js Version
- * Single Card with Gradient
- * Color Palette:
- * - Primary (Red): #C41E3A
- * - Secondary (Purple/Pink): #9B4D96
- * - Dark Background: #1B1B3A
+ * Birthday Card Component - Violet Evergarden Edition
+ * - Cartão Fechado: Altura imponente (85vh) e visual original.
+ * - Cartão Aberto: Dark Premium, Vertical e elegante.
  */
 
 export default function BirthdayCard() {
@@ -26,7 +23,7 @@ export default function BirthdayCard() {
         background: `linear-gradient(135deg, #1B1B3A 0%, #2D1B3A 50%, #1B1B3A 100%)`
       }}
     >
-      {/* Decorative background elements */}
+      {/* Elementos Decorativos de Fundo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-10 left-10 w-32 h-32 rounded-full blur-3xl opacity-30"
@@ -48,227 +45,139 @@ export default function BirthdayCard() {
         />
       </div>
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center gap-8 w-full">
-        {!isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <h1 
-              className="text-5xl md:text-6xl font-bold mb-2"
-              style={{
-                backgroundImage: `linear-gradient(to right, #C41E3A, #9B4D96)`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
+      {/* Conteúdo Principal */}
+      <div className="relative z-10 flex flex-col items-center justify-center gap-8 w-full max-w-5xl">
+        
+        <AnimatePresence mode="wait">
+          {!isOpen ? (
+            /* --- ESTADO 1: CARTÃO INICIAL (FECHADO / ALTO) --- */
+            <motion.div
+              key="closed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.4 } }}
+              className="w-full flex flex-col items-center gap-8"
             >
-              Feliz Aniversário! 🎉
-            </h1>
-            <p className="text-lg font-light" style={{ color: '#9B4D96' }}>
-              Abra o cartão para descobrir uma mensagem especial
-            </p>
-          </motion.div>
-        )}
-
-        {/* Birthday Card Container */}
-        <div className="w-full flex items-center justify-center" style={{ perspective: '1200px' }}>
-          <motion.div
-            className="relative w-full max-w-2xl"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            {/* Closed State - Front Cover */}
-            {!isOpen && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5 }}
-                onClick={() => setIsOpen(true)}
-                className="cursor-pointer"
-              >
-                <div className="relative w-full max-w-2xl mx-auto" style={{ height: '90vh' }}>
-                  {/* Card Shadow */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/20 rounded-3xl" />
-
-                  {/* Front Cover */}
-                  <motion.div
-                    whileHover={{ scale: 1.02, boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}
-                    className="relative w-full h-full rounded-3xl shadow-2xl overflow-hidden border-4 flex flex-col items-center justify-center p-8"
-                    style={{
-                      borderColor: '#9B4D96',
-                      background: `linear-gradient(135deg, rgba(196, 30, 58, 0.1), rgba(155, 77, 150, 0.1), rgba(27, 27, 58, 0.1))`
-                    }}
-                  >
-                    {/* Decorative corner elements */}
-                    <div 
-                      className="absolute top-6 left-6 w-12 h-12 border-t-4 border-l-4 rounded-tl-2xl" 
-                      style={{ borderColor: '#C41E3A' }}
-                    />
-                    <div 
-                      className="absolute bottom-6 right-6 w-12 h-12 border-b-4 border-r-4 rounded-br-2xl"
-                      style={{ borderColor: '#1B1B3A' }}
-                    />
-
-                    {/* Center content */}
-                    <motion.div
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                      className="text-center"
-                    >
-                      <motion.div
-                        className="text-7xl mb-4"
-                        animate={{ scale: [1, 1.1, 1] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        🎁
-                      </motion.div>
-                      <h2 
-                        className="text-4xl font-bold mb-3"
-                        style={{
-                          backgroundImage: `linear-gradient(to right, #C41E3A, #9B4D96)`,
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text'
-                        }}
-                      >
-                        Feliz Aniversário!
-                      </h2>
-                      <p className="text-lg font-light" style={{ color: '#9B4D96' }}>
-                        Clique para abrir a surpresa ✨
-                      </p>
-                    </motion.div>
-
-                    {/* Floating decorative elements */}
-                    <motion.div
-                      className="absolute top-12 right-12 text-3xl"
-                      animate={{ rotate: 360, y: [0, -20, 0] }}
-                      transition={{ duration: 4, repeat: Infinity }}
-                    >
-                      🎉
-                    </motion.div>
-                    <motion.div
-                      className="absolute bottom-12 left-12 text-3xl"
-                      animate={{ rotate: -360, y: [0, 20, 0] }}
-                      transition={{ duration: 5, repeat: Infinity }}
-                    >
-                      🌸
-                    </motion.div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Open State - Single Card */}
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                {/* Card Container */}
-                <div className="relative w-full max-w-2xl mx-auto">
-                  {/* Single Card with Gradient */}
-                  <motion.div
-                    initial={{ rotateY: -90, opacity: 0 }}
-                    animate={{ rotateY: 0, opacity: 1 }}
-                    transition={{ duration: 0.6 }}
-                    className="relative w-full"
-                    style={{ transformStyle: 'preserve-3d' }}
-                  >
-                    <div 
-                      className="relative w-full h-full rounded-3xl shadow-2xl border-4 border-white flex flex-col items-center justify-center p-8 overflow-hidden"
-                      style={{
-                        background: `linear-gradient(135deg, #C41E3A 0%, #9B4D96 50%, #1B1B3A 100%)`
-                      }}
-                    >
-                      {/* Decorative background pattern */}
-                      <div className="absolute inset-0 opacity-10" />
-
-                      {/* Content */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="relative z-10 text-center flex flex-col items-center justify-center h-full gap-6"
-                      >
-                        {/* Violet Flowers Image */}
-                        <motion.img
-                          src="/images/violet-flowers.png"
-                          alt="Buquê de violetas"
-                          className="w-32 h-32 object-contain"
-                          animate={{ scale: [1, 1.08, 1], rotate: [0, 3, -3, 0] }}
-                          transition={{ duration: 3, repeat: Infinity }}
-                        />
-
-                        <h3 className="text-5xl font-bold text-white drop-shadow-lg">
-                          Parabéns!
-                        </h3>
-
-                        <p className="text-xl text-white/95 font-light leading-relaxed max-w-lg drop-shadow-md">
-                          Que seu dia seja tão especial quanto você é para todos nós! 
-                          Que este ano traga muita alegria, sucesso e momentos inesquecíveis!
-                        </p>
-
-                        {/* Typewriter Image at the bottom */}
-                        <motion.img
-                          src="/images/typewriter.png"
-                          alt="Máquina de escrever"
-                          className="w-24 h-24 object-contain mt-4"
-                          animate={{ y: [0, -5, 0] }}
-                          transition={{ duration: 2.5, repeat: Infinity }}
-                        />
-                      </motion.div>
-
-                      {/* Decorative corners */}
-                      <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/30 rounded-tr-lg" />
-                      <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-white/30 rounded-bl-lg" />
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Close Button */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  className="flex justify-center mt-8"
+              <div className="text-center">
+                <h1 
+                  className="text-5xl md:text-7xl font-bold mb-2"
+                  style={{
+                    backgroundImage: `linear-gradient(to right, #C41E3A, #9B4D96)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
                 >
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleClose}
-                    className="px-8 py-3 bg-white font-semibold rounded-full shadow-lg hover:shadow-xl border-2 transition-all"
-                    style={{
-                      borderColor: '#C41E3A',
-                      color: '#C41E3A'
-                    }}
+                  Feliz Aniversário! 🎉
+                </h1>
+                <p className="text-lg font-light text-white/70">
+                  Toque no envelope para ler sua mensagem
+                </p>
+              </div>
+
+              <motion.div
+                whileHover={{ scale: 1.02, boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}
+                onClick={() => setIsOpen(true)}
+                className="cursor-pointer relative w-full max-w-2xl shadow-2xl overflow-hidden border-4 rounded-[40px] p-8 flex flex-col items-center justify-center"
+                style={{
+                  height: '80vh', // Altura imponente conforme solicitado
+                  borderColor: '#9B4D96',
+                  background: `linear-gradient(135deg, rgba(196, 30, 58, 0.1), rgba(155, 77, 150, 0.1), rgba(27, 27, 58, 0.1))`
+                }}
+              >
+                {/* Cantos Decorativos Estilo Carta */}
+                <div className="absolute top-8 left-8 w-16 h-16 border-t-4 border-l-4 rounded-tl-2xl" style={{ borderColor: '#C41E3A' }} />
+                <div className="absolute bottom-8 right-8 w-16 h-16 border-b-4 border-r-4 rounded-br-2xl" style={{ borderColor: '#1B1B3A' }} />
+
+                <motion.div 
+                  animate={{ y: [0, -20, 0] }} 
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-center"
+                >
+                  <div className="text-9xl mb-8">🎁</div>
+                  <h2 
+                    className="text-4xl font-bold mb-3 text-white"
                   >
-                    Fechar Cartão
-                  </motion.button>
+                    Sua Surpresa Chegou!
+                  </h2>
+                  <p className="text-xl font-light" style={{ color: '#9B4D96' }}>
+                    Clique para abrir ✨
+                  </p>
                 </motion.div>
               </motion.div>
-            )}
-          </motion.div>
-        </div>
+            </motion.div>
 
-        {/* Hint text */}
-        {!isOpen && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="text-sm mt-8 text-center"
-            style={{ color: '#9B4D96' }}
-          >
-            Clique ou passe o mouse para abrir o cartão ✨
-          </motion.p>
-        )}
+          ) : (
+            /* --- ESTADO 2: CARTÃO ABERTO (DARK / PREMIUM) --- */
+            <motion.div
+              key="open"
+              initial={{ opacity: 0, y: 50, rotateY: -90 }}
+              animate={{ opacity: 1, y: 0, rotateY: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="w-full flex flex-col items-center"
+            >
+              {/* Container com proporção de pergaminho */}
+              <div className="relative w-full max-w-md aspect-[1/2]">
+                <div 
+                  className="relative w-full h-full rounded-[40px] shadow-[0_30px_80px_rgba(0,0,0,0.8)] border-4 flex flex-col items-center justify-between p-12 overflow-hidden"
+                  style={{
+                    borderColor: '#9B4D96', 
+                    background: `linear-gradient(180deg, #0F0F1E 0%, #1B1B3A 60%, #2D1B3A 100%)`,
+                    transformStyle: 'preserve-3d'
+                  }}
+                >
+                  {/* Textura sutil de fundo */}
+                  <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')]" />
+
+                  {/* Flores no Topo */}
+                  <motion.img
+                    src="/images/violet-flowers.png"
+                    alt="Violet Flowers"
+                    className="w-48 h-48 object-contain drop-shadow-[0_0_20px_rgba(155,77,150,0.5)]"
+                    animate={{ y: [0, -10, 0], rotate: [0, 3, -3, 0] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+
+                  {/* Mensagem Principal */}
+                  <div className="space-y-6 text-center z-10">
+                    <h3 className="text-5xl font-serif font-bold text-white tracking-wide">
+                      Parabéns!
+                    </h3>
+                    <p className="text-xl text-pink-100/90 font-serif italic leading-relaxed">
+                      &quot;Que seu dia seja tão especial quanto você é para todos nós! 
+                      Que este ano traga muita alegria, sucesso e momentos inesquecíveis!&quot;
+                    </p>
+                  </div>
+
+                  {/* Rodapé com Máquina e Botão */}
+                  <div className="flex flex-col items-center gap-6 z-10">
+                    <motion.img
+                      src="/images/typewriter.png"
+                      alt="Máquina"
+                      className="w-28 h-28 object-contain opacity-90"
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
+                    
+                    <motion.button 
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={handleClose}
+                      className="px-8 py-2 bg-transparent border-2 border-pink-500/30 text-pink-300 rounded-full hover:bg-pink-500/10 transition-all font-serif text-sm"
+                    >
+                      Fechar Carta
+                    </motion.button>
+                  </div>
+
+                  {/* Detalhes de Canto Roxos */}
+                  <div className="absolute top-8 right-8 w-10 h-10 border-t-2 border-r-2 border-[#9B4D96]/40 rounded-tr-xl" />
+                  <div className="absolute bottom-8 left-8 w-10 h-10 border-b-2 border-l-2 border-[#9B4D96]/40 rounded-bl-xl" />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
